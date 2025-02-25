@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplos Javascript</title>
+    <!-- CSS DO FONT AWESOME -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS DO BOOTSTRAP -->
+    <link rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous" />
+    <style>
+        .titulo {
+            color: red;
+            background-color: blue;
+            border-color: red;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Exemplos Javascript</h1>
+        <button id="botao"><i class="fa-solid fa-bolt"></i> Executar</button>
+        <div id="resultado">
+            <p>Texto 1</p>
+            <p>Texto 2</p>
+            ...
+            <p>Texto 10000</p>
+        </div>
+    </main>
+    <!-- Javascript DO BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        // Escrever código JS dentro desta tag <script>
+        // Ex1) Gerar 10.000 parágrafos de texto
+        function gerarTextos() {
+            let resultado = '';
+            for (let i = 1; i <= 10000; i++) {
+                resultado = resultado + '<p>' + 'Texto ' + i + '</p>';
+            }
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+
+        function gerarTextos2() {
+            for (let i = 1; i <= 10000; i++) {
+                let resultado = `<p>Texto ${i} - v2</p>`;
+                document.getElementById('resultado')
+                    .insertAdjacentHTML('beforeend', resultado);
+            }
+        }
+
+
+        function destacarLinhasPares() {
+            let textos = document.querySelectorAll('#resultado > p');
+            for (let i = 0; i < textos.length; i++) {
+                let elementoP = textos[i];
+                if ((i + 1) % 2 === 0) {
+                    elementoP.style.color = 'red';
+                    elementoP.style.backgroundColor = 'yellow';
+                }
+            }
+        }
+
+        function alterarClassTitulo() {
+            document.querySelector('h1').classList.add('titulo');
+        }
+
+        document.getElementById('botao')
+            .addEventListener('click', function() {
+                gerarTextos2();
+                destacarLinhasPares();
+                alterarClassTitulo();
+            });
+
+
+    </script>
+</body>
+</html>
