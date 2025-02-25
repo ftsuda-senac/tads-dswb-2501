@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplos Javascript</title>
+    <!-- CSS DO FONT AWESOME -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS DO BOOTSTRAP -->
+    <link rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous" />
+    <style>
+        .titulo {
+            color: red;
+            background-color: blue;
+            border-color: red;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Exemplos Fetch API</h1>
+        <button id="botao" onclick="buscarDadosPessoais()"><i class="fa-solid fa-bolt"></i> Executar</button>
+        <div id="resultado">
+
+        </div>
+    </main>
+    <!-- Javascript DO BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        async function buscarPokemon() {
+            try {
+                const httpResp = await fetch('https://pokeapi.co/api/v2/pokemon/pikachu');
+                if (!httpResp.ok) {
+                    alert('Erro na requisição');
+                    return;
+                }
+                const dados = await httpResp.json();
+                let html = `<h2>${dados.name}</h2>
+                            <img src="${dados.sprites.front_default}" />`;
+                document.getElementById('resultado').innerHTML = html;
+            } catch (err) {
+                alert('Erro ao enviar requisição');
+            }
+        }
+        async function buscarDadosPessoais() {
+            try {
+                const httpResp = await fetch('dados.json');
+                if (!httpResp.ok) {
+                    alert('Erro na requisição');
+                    return;
+                }
+                const dadosArray = await httpResp.json();
+                for (const dados of dadosArray) {
+                    const html = `<article><h2>${dados.nome}</h2>
+                        <p>E-mail: ${dados.email}</p>
+                        <p>Telefone: ${dados.telefone}</p>
+                        <p>Data nascimento: ${dados.dataNascimento}</p>
+                        </article>`;
+                    document.getElementById('resultado')
+                        .insertAdjacentHTML('beforeend', html)
+                }
+            } catch (err) {
+                alert('Erro ao enviar requisição');
+            }
+        }
+ 
+    </script>
+</body>
+</html>
