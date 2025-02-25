@@ -74,11 +74,33 @@
             document.querySelector('h1').classList.add('titulo');
         }
 
+        function aguardarPromise() {
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    reject();
+                }, 3000);
+            });
+        }
+
+
         document.getElementById('botao')
-            .addEventListener('click', function() {
-                gerarTextos2();
-                destacarLinhasPares();
-                alterarClassTitulo();
+            .addEventListener('click', async function() {
+
+                // aguardarPromise().then(function() {
+                //     gerarTextos2();
+                //     destacarLinhasPares();
+                //     alterarClassTitulo();
+                // }).catch(function() {
+                //     alert('Exemplo de Reject');
+                // });
+                try {
+                    await aguardarPromise();
+                    gerarTextos2();
+                    destacarLinhasPares();
+                    alterarClassTitulo();
+                } catch(err) {
+                    alert('Exemplo de Reject');
+                }
             });
 
 
