@@ -1,6 +1,7 @@
 package br.senac.tads.dsw.exemplo.rest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +15,8 @@ public class DadosDto {
   @NotBlank
   private String nome;
 
+  private String apelido;
+
   @PastOrPresent
   private LocalDate dataNascimento;
 
@@ -22,6 +25,12 @@ public class DadosDto {
   private String email;
 
   private String telefone;
+
+  private String senha;
+
+  private String senhaConfirmacao;
+
+  private List<String> interesses;
 
   public DadosDto() {
   }
@@ -51,6 +60,14 @@ public class DadosDto {
     this.nome = nome;
   }
 
+  public String getApelido() {
+    return apelido;
+  }
+
+  public void setApelido(String apelido) {
+    this.apelido = apelido;
+  }
+
   public LocalDate getDataNascimento() {
     return dataNascimento;
   }
@@ -74,5 +91,31 @@ public class DadosDto {
   public void setTelefone(String telefone) {
     this.telefone = telefone;
   }
+
+  public String getSenha() {
+    return senha;
+  }
+
+  public void setSenha(String senha) {
+    this.senha = senha;
+  }
+
+  public String getSenhaConfirmacao() {
+    return senhaConfirmacao;
+  }
+
+  public void setSenhaConfirmacao(String senhaConfirmacao) {
+    this.senhaConfirmacao = senhaConfirmacao;
+  }
+
+  public List<String> getInteresses() {
+    return interesses;
+  }
+
+  public void setInteresses(List<String> interesses) {
+    this.interesses = interesses;
+  }
+
+  
 
 }
