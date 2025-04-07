@@ -44,6 +44,18 @@ public class DadosDto {
     this.telefone = telefone;
   }
 
+  public DadosDto(Integer id, String apelido, String nome, String dataNascimento,
+      String email, String telefone, List<String> interesses) {
+    this.id = id;
+    this.apelido = apelido;
+    this.nome = nome;
+    this.dataNascimento = LocalDate.parse(dataNascimento);
+    this.email = email;
+    this.telefone = telefone;
+    this.interesses = interesses;
+
+  }
+
   public Integer getId() {
     return id;
   }
