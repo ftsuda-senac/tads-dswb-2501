@@ -92,9 +92,9 @@
             </div>
           </div>
           <div class="row mb-3">
-            <label for="txtSenhaRepetida" class="col-sm-2 col-form-label">Repetir senha</label>
+            <label for="txtSenhaConfirmacao" class="col-sm-2 col-form-label">Confirmar senha</label>
             <div class="col-sm-10">
-              <input type="password" name="senhaRepetida" value="" id="txtSenhaRepetida" placeholder="Repetir senha"
+              <input type="password" name="senhaConfirmacao" value="" id="txtSenhaConfirmacao" placeholder="Repetir a senha"
                 class="form-control" minlength="8" />
               <p class="invalid-feedback"></p>
             </div>
@@ -150,24 +150,73 @@
     crossorigin="anonymous"></script>
   <script>
     // Carregar opções de interesses
-    async function carregarInteresses() {
+    async function findAllInteresses() {
+      try {
+        const httpResp = await fetch('http://localhost:8080/api/interesses');
+        if (!httpResp.ok) {
+          alert('Erro na requisição - código: ' + httpResp.status);
+          return;
+        }
+        const dadosArray = await httpResp.json();
+        const elOpcoes = document.getElementById('opcoesInteresses');
+        elOpcoes.innerHTML = ''; // Limpando eventuais dados que já foram carregados
+        for (const dados of dadosArray) {
+          const idElemento = `interesse${dados.id}`
+          const opcaoInteresse = `<div class="form-check form-check-inline">
+            <input type="checkbox" name="interessesIds" value="${dados.id}" id="${idElemento}" class="form-check-input" />
+            <label for="${idElemento}" class="form-check-label">${dados.nome}</label>
+          </div>`;
+          elOpcoes.insertAdjacentHTML('beforeend', opcaoInteresse);
+        }
+      } catch (err) {
+        alert('Erro na requisição - ' + err);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => { findAllInteresses() });
 
-      const dados = await obterDados('/api/interesses');
+    async function incluirNovo(evt) {
+      evt.preventDefault();
+      const formulario = document.getElementById('formDados');
 
-      const elOpcoes = document.getElementById('opcoesInteresses');
-      elOpcoes.innerHTML = '';
-      for (const dado of dados.conteudo) {
-        const elId = `interesse${dado}`;
-        const opcao = `
-          <div class="form-check form-check-inline">
-            <input type="checkbox" name="interesses" value="${dado}" id="${elId}" class="form-check-input" />
-            <label for="${elId}" class="form-check-label">${dado}</label>
-          </div>
-        `;
-        elOpcoes.insertAdjacentHTML('beforeend', opcao);
+      const interessesSelecionados = [];
+      const checkboxesSelecionados = document.querySelectorAll('[name="interessesIds"]');
+      for (const chk of checkboxesSelecionados) {
+        if (chk.checked) {
+          interessesSelecionados.push(chk.value);
+        }
       }
 
+      const dadosParaEnviar = {
+        apelido: formulario.apelido.value,
+        nome: formulario.nome.value,
+        email: formulario.email.value,
+        telefone: formulario.telefone.value,
+        dataNascimento: formulario.dataNascimento.value,
+        senha: formulario.senha.value,
+        senhaConfirmacao: formulario.senha.value,
+        interessesIds: interessesSelecionados
+      }
+      console.log(JSON.stringify(dadosParaEnviar));
+      try {
+        const httpResp = await fetch('http://localhost:8080/api/dados', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(dadosParaEnviar)
+        });
+        if (!httpResp.ok) {
+          alert('Erro na requisição - código: ' + httpResp.status);
+          return;
+        }
+        
+      } catch (err) {
+        alert('Erro na requisição - ' + err);
+      }
     }
+
+    document.getElementById('formDados').onsubmit = incluirNovo;
+
   </script>
 </body>
 

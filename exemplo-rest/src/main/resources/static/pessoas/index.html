@@ -65,7 +65,7 @@
             <td>xpto</td>
             <td>
               <a href="detalhes.html?id=999">Detalhes</a>
-              <a href="formulario.html?id=999">Editar</a>
+              <a href="formulario.html?id=999">Alterar</a>
               <button>Excluir</button>
             </td>
           </tr>
@@ -91,6 +91,35 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
   <script>
+    async function findAll() {
+      try {
+        const httpResp = await fetch('http://localhost:8080/api/dados');
+        if (!httpResp.ok) {
+          alert('Erro na requisição - código: ' + httpResp.status);
+          return;
+        }
+        const dadosArray = await httpResp.json();
+        const elTbody = document.getElementById('dados');
+        elTbody.innerHTML = ''; // Limpando eventuais dados que já foram carregados
+        for (const dados of dadosArray) {
+          const linhaTabela = `<tr>
+            <th>${dados.id}</th>
+            <td>${dados.nome}</td>
+            <td>${dados.apelido}</td>
+            <td>
+              <a href="detalhes.html?id=${dados.id}">Detalhes</a>
+              <a href="formulario.html?id=${dados.id}">Alterar</a>
+              <button>Excluir</button>
+            </td>
+          </tr>`;
+          elTbody.insertAdjacentHTML('beforeend', linhaTabela);
+        }
+      } catch (err) {
+        alert('Erro na requisição - ' + err);
+      }
+    }
+
+    document.getElementById('btnFetch').onclick = findAll;
 
   </script>
 </body>
