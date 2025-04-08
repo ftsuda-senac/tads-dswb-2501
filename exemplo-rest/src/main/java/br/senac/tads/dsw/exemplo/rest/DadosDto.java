@@ -3,10 +3,14 @@ package br.senac.tads.dsw.exemplo.rest;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.senac.tads.dsw.exemplo.rest.validation.SenhasIguais;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
+@SenhasIguais
 public class DadosDto {
   private Integer id;
 
@@ -15,6 +19,7 @@ public class DadosDto {
   @NotBlank
   private String nome;
 
+  @NotBlank(message = "Preencha isso seu animal")
   private String apelido;
 
   @PastOrPresent
@@ -26,11 +31,15 @@ public class DadosDto {
 
   private String telefone;
 
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private List<String> interesses;
+
   private String senha;
 
   private String senhaConfirmacao;
 
-  private List<String> interesses;
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private List<Integer> interessesIds;
 
   public DadosDto() {
   }
