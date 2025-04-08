@@ -67,10 +67,6 @@
           </ul>
         </div>
       </section>
-      <div class="w-100"></div>
-      <section id="atividade" class="col-md-4">
-        <button id="btnFetch">Carregar JSON com Fetch API</button>
-      </section>
     </div>
   </main>
   
@@ -111,7 +107,7 @@
         document.getElementById('dataNascimento').textContent = dados.dataNascimento;
 
         const interesses = dados.interesses.map(interesse => `<li>${interesse}</li>`);
-        document.getElementById('interesses').insertAdjacentHTML('afterbegin', '<ul>' + interesses + '</ul>');
+        document.getElementById('interesses').insertAdjacentHTML('afterbegin', '<ul>' + interesses.join('') + '</ul>');
 
       } catch (err) {
         alert('Erro na requisição - ' + err);
