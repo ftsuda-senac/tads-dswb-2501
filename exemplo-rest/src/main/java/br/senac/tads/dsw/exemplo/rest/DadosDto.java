@@ -34,8 +34,10 @@ public class DadosDto {
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private List<String> interesses;
 
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String senha;
 
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String senhaConfirmacao;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
