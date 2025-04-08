@@ -62,6 +62,8 @@
             <li class="list-group-item text-bg-light"><i class="fa-solid fa-cake-candles fa-xl fa-fw"></i>
               <span id="dataNascimento">01/01/1970</span>
             </li>
+            <li class="list-group-item text-bg-light" id="interesses">
+            </li>
           </ul>
         </div>
       </section>
@@ -90,6 +92,35 @@
       const id = urlParams.get('id');
       return id;
     }
+
+    async function findById() {
+      const id = obterParametroQueryString();
+      if (!id) {
+        window.location.href = 'index.html';
+      }
+      try {
+        const httpResp = await fetch(`http://localhost:8080/api/dados/${id}`);
+        if (!httpResp.ok) {
+          alert('Erro na requisição - código: ' + httpResp.status);
+          return;
+        }
+        const dados = await httpResp.json();
+        document.getElementById('nome').textContent = dados.nome;
+        document.getElementById('email').textContent = dados.email;
+        document.getElementById('telefone').textContent = dados.telefone;
+        document.getElementById('dataNascimento').textContent = dados.dataNascimento;
+
+        const interesses = dados.interesses.map(interesse => `<li>${interesse}</li>`);
+        document.getElementById('interesses').insertAdjacentHTML('afterbegin', '<ul>' + interesses + '</ul>');
+
+      } catch (err) {
+        alert('Erro na requisição - ' + err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => findById());
+
+  </script>
 
   </script>
 </body>

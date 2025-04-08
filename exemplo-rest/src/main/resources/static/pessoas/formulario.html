@@ -46,8 +46,8 @@
             <label for="txtApelido" class="col-sm-2 col-form-label">Apelido</label>
             <div class="col-sm-10">
               <input type="text" name="apelido" value="" id="txtApelido"
-                placeholder="Preencha um apelido (username) válido e único" class="form-control" maxlength="100"
-                required />
+                placeholder="Preencha um apelido (username) válido e único" class="form-control"
+                maxlength="100" required />
               <p class="invalid-feedback"></p>
             </div>
           </div>
@@ -179,11 +179,15 @@
       const formulario = document.getElementById('formDados');
 
       const interessesSelecionados = [];
-      const checkboxesSelecionados = document.querySelectorAll('[name="interessesIds"]');
+      // const checkboxesSelecionados = document.querySelectorAll('[name="interessesIds"]');
+      // for (const chk of checkboxesSelecionados) {
+      //   if (chk.checked) {
+      //     teste = chk.value
+      //   }
+      // }
+      const checkboxesSelecionados = document.querySelectorAll('[name="interessesIds"]:checked');
       for (const chk of checkboxesSelecionados) {
-        if (chk.checked) {
-          interessesSelecionados.push(chk.value);
-        }
+        interessesSelecionados.push(+chk.value); // "+" converte a string do checkbox para numero
       }
 
       const dadosParaEnviar = {
@@ -193,10 +197,22 @@
         telefone: formulario.telefone.value,
         dataNascimento: formulario.dataNascimento.value,
         senha: formulario.senha.value,
-        senhaConfirmacao: formulario.senha.value,
+        senhaConfirmacao: formulario.senhaConfirmacao.value,
         interessesIds: interessesSelecionados
       }
       console.log(JSON.stringify(dadosParaEnviar));
+
+      // Apagar o class 'is-invalid'
+      const elInputs = document.querySelectorAll('[name].is-invalid');
+      for (const el of elInputs) {
+        el.classList.remove('is-invalid');
+      }
+
+      // Apagar as mensagens de erro que foram apresentadas
+      const elMsg = document.querySelectorAll('[name] + p');
+      for (const el of elMsg) {
+        el.textContent = '';
+      }
       try {
         const httpResp = await fetch('http://localhost:8080/api/dados', {
           method: 'POST',
@@ -206,10 +222,23 @@
           body: JSON.stringify(dadosParaEnviar)
         });
         if (!httpResp.ok) {
+          if (httpResp.status === 400) {
+            const objErro = await httpResp.json();
+            console.log(JSON.stringify(objErro));
+            for (const erro of objErro.errors) {
+              const elInput = document.querySelector(`[name="${erro.field}"]`);
+              elInput.classList.add('is-invalid');
+              const elMensagem = document.querySelector(`[name="${erro.field}"] + p`);
+              elMensagem.textContent = erro.defaultMessage;
+            }
+          }
           alert('Erro na requisição - código: ' + httpResp.status);
           return;
         }
-        
+        // Feedback para usuário após inclusão
+        alert('Sucesso');
+        window.location.href = 'index.html';
+
       } catch (err) {
         alert('Erro na requisição - ' + err);
       }

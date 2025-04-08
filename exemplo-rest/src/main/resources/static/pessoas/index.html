@@ -91,6 +91,14 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
   <script>
+    function confirmar(id) {
+      const confirmacao = confirm('Deseja excluir ID ' + id + '?');
+      if (confirmacao) {
+        // TODO: Lógica Fetch para delete
+        alert('Excluido com sucesso');
+      }
+    }
+
     async function findAll() {
       try {
         const httpResp = await fetch('http://localhost:8080/api/dados');
@@ -109,7 +117,7 @@
             <td>
               <a href="detalhes.html?id=${dados.id}">Detalhes</a>
               <a href="formulario.html?id=${dados.id}">Alterar</a>
-              <button>Excluir</button>
+              <button onclick="confirmar(${dados.id})">Excluir</button>
             </td>
           </tr>`;
           elTbody.insertAdjacentHTML('beforeend', linhaTabela);
