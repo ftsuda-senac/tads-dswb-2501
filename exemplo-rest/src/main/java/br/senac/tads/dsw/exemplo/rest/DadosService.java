@@ -1,53 +1,16 @@
 package br.senac.tads.dsw.exemplo.rest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+public interface DadosService {
 
-@Service
-public class DadosService {
+    List<DadosDto> findAll();
 
-  private Map<Integer, DadosDto> dados;
+    Optional<DadosDto> findById(Integer id);
 
-  public int contador = 0;
+    DadosDto save(DadosDto input);
 
-  public DadosService() {
-    dados = new HashMap<>();
-    int id;
-    id = ++contador;
-    dados.put(id, new DadosDto(id, "fulano", "Fulano da Silva", "2000-10-20",
-        "fulano@email.com", "11 99999-9999", List.of("Java", "Spring Boot", "SQL")));
-    id = ++contador;
-    dados.put(id, new DadosDto(id, "ciclano", "Ciclano de Souza", "1999-05-15",
-        "ciclano@email.com", "11 98888-8888", List.of("Javascript", "Angular", "React")));
-    id = ++contador;
-    dados.put(id, new DadosDto(id, "beltrana", "Beltrana dos Santos", "2001-02-09",
-        "beltrana@email.com", "11 97777-7777", List.of("Spring Boot", "Microservices")));
-  }
+    void delete(int id);
 
-  public List<DadosDto> findAll() {
-    return new ArrayList<>(dados.values());
-  }
-
-  public Optional<DadosDto> findById(Integer id) {
-    return Optional.ofNullable(dados.get(id));
-  }
-
-  public DadosDto save(DadosDto input) {
-    // ID null -> implica incluir novo
-    if (input.getId() == null) {
-      int id = ++contador;
-      input.setId(id);
-    }
-    dados.put(input.getId(), input);
-    return input;
-  }
-
-  public void delete(int id) {
-    dados.remove(id);
-  }
 }
