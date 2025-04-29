@@ -139,6 +139,14 @@ public class DadosDto {
     this.interesses = interesses;
   }
 
+  public List<Integer> getInteressesIds() {
+    return interessesIds;
+  }
+
+  public void setInteressesIds(List<Integer> interessesIds) {
+    this.interessesIds = interessesIds;
+  }
+
   
 
 }
