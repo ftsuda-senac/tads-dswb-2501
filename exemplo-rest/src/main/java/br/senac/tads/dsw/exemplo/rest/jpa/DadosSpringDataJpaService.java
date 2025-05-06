@@ -28,27 +28,41 @@ public class DadosSpringDataJpaService implements DadosService {
         List<Pessoa> entities = pessoaRepository.findAll();
         List<DadosDto> resultados = new  ArrayList<>();
         for (Pessoa p : entities) {
-            DadosDto dto = new DadosDto();
-            dto.setId(p.getId());
-            dto.setApelido(p.getApelido());
-            dto.setNome(p.getNome());
-            dto.setEmail(p.getEmail());
-            dto.setTelefone(p.getTelefone());
-            dto.setDataNascimento(p.getDataNascimento());
-            List<String> interesses = new ArrayList<>();
-            for (Interesse i : p.getInteresses()) {
-                interesses.add(i.getNome());
-            }
-            dto.setInteresses(interesses);
-            resultados.add(dto);
+            resultados.add(converterEntityParaDto(p));
         }
         return resultados;
     }
 
     @Override
     public Optional<DadosDto> findById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        /* 
+        Optional<Pessoa> optPessoaEntity = pessoaRepository.findById(id);
+        if (optPessoaEntity.isEmpty()) {
+            return Optional.empty();
+        }
+        DadosDto dto = converterEntityParaDto(optPessoaEntity.get());
+        return Optional.of(dto);
+        */
+        return pessoaRepository.findById(id).map(entity -> converterEntityParaDto(entity));
+    }
+
+    private DadosDto converterEntityParaDto(Pessoa pessoaEntity) {
+        DadosDto dto  = new DadosDto();
+        dto.setId(pessoaEntity.getId());
+        dto.setApelido(pessoaEntity.getApelido());
+        dto.setNome(pessoaEntity.getNome());
+        dto.setEmail(pessoaEntity.getEmail());
+        dto.setTelefone(pessoaEntity.getTelefone());
+        dto.setDataNascimento(pessoaEntity.getDataNascimento());
+        if (pessoaEntity.getInteresses() != null && 
+            !pessoaEntity.getInteresses().isEmpty()) {
+            List<String> interessesDto = new ArrayList<>();
+            for (Interesse interesse : pessoaEntity.getInteresses()) {
+                interessesDto.add(interesse.getNome());
+            }
+            dto.setInteresses(interessesDto);
+        }
+        return dto;
     }
 
     @Override
