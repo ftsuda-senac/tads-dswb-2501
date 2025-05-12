@@ -7,10 +7,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/login")
@@ -19,8 +18,11 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtService jwtService;
+
     @PostMapping
-    public ResponseEntity<?> fazerLogin(Credencial credencial) {
+    public ResponseEntity<?> fazerLogin(@RequestBody Credencial credencial) {
         // Fazer login e gerar token
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -30,8 +32,8 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         UsuarioSistema usuario = (UsuarioSistema) auth.getPrincipal();
-        return ResponseEntity.ok().body(new RespostaLogin(usuario.getNomeCompleto(), 
-            "token12345678"));
+        String token = jwtService.gerarJwt(usuario);
+        return ResponseEntity.ok().body(new RespostaLogin(usuario.getNomeCompleto(), token));
     }
 
     public record Credencial(String username, String senha) {

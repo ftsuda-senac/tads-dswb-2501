@@ -16,13 +16,13 @@ public class UsuarioSistemaService implements UserDetailsService {
 
     public UsuarioSistemaService() {
         usuarios.put("peao", new UsuarioSistema("Peão da Silva", "peao", 
-            "{noop}Abcd1234", List.of(new Permissao("ROLE_COMUM"))));
+            "{noop}Abcd1234", List.of(new Permissao("SCOPE_PEAO"))));
         usuarios.put("gerente", new UsuarioSistema("Gerente de Souza", "gerente", 
-            "{noop}Abcd1234", List.of(new Permissao("ROLE_COMUM"), 
-                new Permissao("ROLE_GERENTE"))));
+            "{noop}Abcd1234", List.of(new Permissao("SCOPE_PEAO"), 
+                new Permissao("SCOPE_GERENTE"))));
         usuarios.put("diretor", new UsuarioSistema("Diretor dos Santos", "diretor", 
-            "{noop}Abcd1234", List.of(new Permissao("ROLE_COMUM"),
-                new Permissao("ROLE_DIRETOR"))));
+            "{noop}Abcd1234", List.of(new Permissao("SCOPE_PEAO"),
+                new Permissao("SCOPE_DIRETOR"))));
     }
 
     @Override
