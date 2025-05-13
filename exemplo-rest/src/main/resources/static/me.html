@@ -28,11 +28,9 @@
       </div>
       <div>
         <button id="btnComum" class="btn btn-primary">Ver Mensagem Comum</button>
-        <!--
-        <button id="btnPeao" class="btn btn-dark">Ver Mensagem PEAO</button>
-        <button id="btnGerente" class="btn btn-dark">Ver Mensagem GERENTE</button>
-        <button id="btnDiretor" class="btn btn-dark">Ver Mensagem DIRETOR</button>
-        -->
+        <button id="btnPeao" class="btn btn-dark d-none">Ver Mensagem PEAO</button>
+        <button id="btnGerente" class="btn btn-dark d-none">Ver Mensagem GERENTE</button>
+        <button id="btnDiretor" class="btn btn-dark d-none">Ver Mensagem DIRETOR</button>
       </div>
     </div>
   </div>
@@ -81,7 +79,6 @@
       document.getElementById('hashSenha').innerHTML = resp.hashSenha;
     }
 
-    /*
     document.getElementById('btnPeao').onclick = async function () {
       document.getElementById('alerta401').style.display = 'none';
       document.getElementById('alerta403').style.display = 'none';
@@ -102,24 +99,22 @@
       const resp = await getMe('/diretor');
       alert(resp.nome + "\r\n" + resp.mensagem);
     }
-    */
 
-    /*
     if (jwt) {
        document.getElementById('btnComum').classList.remove('d-none');
+
        const tokenDecodificado = decodificarJwt(jwt);
-       const permissoes = tokenDecodificado.scope.split(/\s+/);
-       if (permissoes.includes('PEAO')) {
+       const permissoes = tokenDecodificado.roles;
+       if (permissoes.includes('SCOPE_PEAO')) {
          document.getElementById('btnPeao').classList.remove('d-none');
        }
-       if (permissoes.includes('GERENTE')) {
+       if (permissoes.includes('SCOPE_GERENTE')) {
          document.getElementById('btnGerente').classList.remove('d-none');
        }
-       if (permissoes.includes('DIRETOR')) {
+       if (permissoes.includes('SCOPE_DIRETOR')) {
          document.getElementById('btnDiretor').classList.remove('d-none');
        }
     }
-       */
   </script>
 </body>
 </html>

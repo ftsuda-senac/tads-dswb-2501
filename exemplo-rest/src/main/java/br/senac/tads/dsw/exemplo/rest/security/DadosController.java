@@ -30,19 +30,19 @@ public class DadosController {
     }
 
     @GetMapping("/peao")
-    // @PreAuthorize("hasAuthority('SCOPE_PEAO')")
+    @PreAuthorize("hasAuthority('SCOPE_PEAO')")
     public MensagemPermissao obterDadosPeao(@AuthenticationPrincipal UsuarioSistema usuario) {
         return new MensagemPermissao(usuario.getNomeCompleto(), "Usuário com Permissão \"PEAO\"");
     }
     
     @GetMapping("/gerente")
-    // @PreAuthorize("hasAuthority('SCOPE_GERENTE')")
+    @PreAuthorize("hasAuthority('SCOPE_GERENTE')")
     public MensagemPermissao obterDadosGerente(@AuthenticationPrincipal UsuarioSistema usuario) {
         return new MensagemPermissao(usuario.getNomeCompleto(), "Usuário com Permissão \"GERENTE\"");
     }
     
     @GetMapping("/diretor")
-    // @PreAuthorize("hasAuthority('SCOPE_DIRETOR')")
+    @PreAuthorize("hasAuthority('SCOPE_DIRETOR')")
     public MensagemPermissao obterDadosDiretor(@AuthenticationPrincipal UsuarioSistema usuario) {
         return new MensagemPermissao(usuario.getNomeCompleto(), "Usuário com Permissão \"DIRETOR\"");
     }
